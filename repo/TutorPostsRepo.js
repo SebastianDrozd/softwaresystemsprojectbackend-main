@@ -60,6 +60,7 @@ const createTutorPost = async (data) => {
         "Database connection refused. Please check your database server."
       );
     } else {
+      console.log(error)
       throw new InternalServerError(
         "An Error occurred while trying to save the post."
       );
@@ -97,10 +98,9 @@ INNER JOIN Subjects s ON ps.SubjectId = s.SubjectId
 INNER JOIN TutorAvailability a ON p.TutorId = a.TutorId
 GROUP BY p.PostId;`
     const [results] = await pool.query(sql)
-    console.log(results)
     return results;
   } catch (error) {
-    console.log(error)
+    throw new InternalServerError("Error fetching tutor posts");
   }
 
 }
@@ -135,11 +135,12 @@ GROUP BY p.PostId`
     const [results] = await pool.query(sql, [id])
     return results
   } catch (error) {
-    console.log(error)
+    throw new InternalServerError("Error fetching tutor post by ID");
   }
 
 
 }
+
 
 module.exports = {
   createTutorPost,

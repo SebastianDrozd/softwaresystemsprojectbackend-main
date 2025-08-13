@@ -19,17 +19,14 @@ const loginUser = async (req, res) => {
     if (!existingUser) {
        res.status(404).send("No user Found")
     }
-    console.log("this is existing user", existingUser)
 
     if (password == existingUser.Password) {
-      console.log("password match")
       const payload = {
         id: existingUser.id,
         firstname: existingUser.FirstName,
         email: existingUser.Email,
         role: existingUser.Role
       };
-      console.log("this is payloard",payload)
       const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
       res
         .status(201)
@@ -47,7 +44,6 @@ const loginUser = async (req, res) => {
 
    
   } catch (error) {
-    console.log(error)
     const status = error.statusCode || 500;
     const message = error.message || "Internal Server Error";
     res.status(status).json({ name: error.name, message: message });
@@ -55,7 +51,6 @@ const loginUser = async (req, res) => {
 }
 
 const signupUser = async (req, res) => {
-  console.log("Received signup request:", req.body);
   const { username, password, email, role, firstname, lastname } = req.body;
   try {
     const existingUser = await userRepo.getUserByEmail(email);
@@ -92,7 +87,6 @@ const signupUser = async (req, res) => {
   } catch (error) {
     const status = error.statusCode || 500;
     const message = error.message || "Internal Server Error";
-    console.error("Error during signup:", error);
     return res.status(status).json({ name: error.name, message });
   }
 };
@@ -104,7 +98,6 @@ const getUserByEmail = async (req, res) => {
     const user = await userRepo.getUserByEmail(email);
     res.status(200).json(user);
   } catch (error) {
-    console.log(error)
     const status = error.statusCode || 500;
     const message = error.message || "Internal Server Error";
     res.status(status).json({ name: error.name, message: message });
@@ -121,7 +114,7 @@ const verifyToken = (req, res) => {
     const user = jwt.verify(token, JWT_SECRET)
     res.json({ id: user.id, email: user.email, firstname: user.firstname, role: user.role })
   } catch (err) {
-    console.log(err)
+    res.status(401).send("Invalid token");
   }
 }
 

@@ -1,3 +1,4 @@
+const InternalServerError = require("../error/InternalServerError")
 const pool = require("../util/dbconfig")
 
 
@@ -6,9 +7,8 @@ const getAllSubjects = async() => {
         const sql = `SELECT * from Subjects`
         const [results] = await  pool.query(sql)
         return results
-
     }catch(error){
-
+        throw new InternalServerError("Error fetching subjects");
     }
 }
 
@@ -18,7 +18,7 @@ const getSubjectIdByName = async(name) => {
         const [results] = await pool.query(sql,[name]) 
         return results
     }catch(error){
-        console.log(error)
+        throw new InternalServerError("Error fetching subject by name");
     }
 }
 
@@ -29,7 +29,7 @@ const createSubjectPostMapping = async (subject,post) => {
         const [results] = await pool.query(sql,[subject,post])
         return results;
     }catch(error){
-        console.log(error)
+        throw new InternalServerError("Error creating subject-post mapping");
     }
 }
 

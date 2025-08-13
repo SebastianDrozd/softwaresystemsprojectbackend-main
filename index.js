@@ -6,12 +6,16 @@ const cors = require('cors');
 const UserRoutes = require("./routes/UserRoutes")
 const TutorPostsRoutes = require("./routes/TutorPostsRoutes")
 const SubjectRoutes = require("./routes/SubjectRoutes")
+const BookingRoutes = require('./routes/BookingRoutes')
+const RoomRoutes = require("./routes/RoomRoutes")
+const ReviewRoutes = require("./routes/ReviewRoutes")
 const cookieParser = require('cookie-parser');
 
 
 const origins = [
   'http://localhost:3000',
-  'http://192.168.56.1:3000'
+  'http://192.168.56.1:3000',
+  'http://sebastian:3000'
 ]
 // Middleware
 app.use(cookieParser());
@@ -26,6 +30,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/users', UserRoutes);
 app.use("/api/tutorposts",TutorPostsRoutes)
 app.use("/api/subjects",SubjectRoutes)
+app.use("/api/booking",BookingRoutes)
+app.use("/api/rooms",RoomRoutes)
+app.use("/api/reviews",ReviewRoutes)
 
 
 
