@@ -14,7 +14,9 @@ const createNewTutorPost = async (req, res) => {
 
 const getAllPosts = async (req, res) => {
     try {
+        console.log("posts endpoint hit")
         const response = await tutorPostRepo.getTutorPosts()
+        console.log("response from repo", response)
         res.status(200).send(response)
     } catch (error) {
         res.status(500).send(error)

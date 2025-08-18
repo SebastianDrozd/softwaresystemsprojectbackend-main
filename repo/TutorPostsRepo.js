@@ -100,6 +100,7 @@ GROUP BY p.PostId;`
     const [results] = await pool.query(sql)
     return results;
   } catch (error) {
+    console.log("Error fetching tutor posts", error);
     throw new InternalServerError("Error fetching tutor posts");
   }
 
